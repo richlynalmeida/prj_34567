@@ -38,6 +38,21 @@ class OriginalEstimateBudget(models.Model):
         return f"{self.oeb_code} - {self.oeb_title}"
 
 
+class OEBRaciInformation(models.Model):
+    tm_oeb = models.ForeignKey(OriginalEstimateBudget, on_delete=models.CASCADE, verbose_name='OEB ID',
+                               default=1)
+    personnel = models.ForeignKey(Personnel, verbose_name='Personnel ID', on_delete=models.CASCADE, default=1)
+    raci = models.ForeignKey(RaciMatrixDefinition, verbose_name='Raci ID', on_delete=models.CASCADE, default=1)
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "Original Estimate Budget RACI Information"
+        db_table = 'tm_oeb_raci_info'
+        app_label = 'i_eb'
+        unique_together = ['tm_oeb', 'personnel', 'raci']
+
+
 class CurrentEstimateBudgetTrends(models.Model):
     tm_oeb = models.ForeignKey(OriginalEstimateBudget, on_delete=models.CASCADE, verbose_name='OEB ID',
                                default=1)
@@ -147,17 +162,18 @@ class EBWPAudit(models.Model):
     ebwp_discretionary_finish_date = models.DateTimeField(blank=True, null=True,
                                                           verbose_name='EBWP Discretionary Finish Date')
     ebwp_sibling_id = models.IntegerField(verbose_name='EB Sibling ID', blank=True, null=True)
+    ebwp_comments = models.CharField(max_length=200, blank=True, null=True, verbose_name='EBWP Comments')
+    ebwp_primary_contact = models.CharField(max_length=2000, blank=True, null=True,
+                                            verbose_name='EBWP Primary Contact or Owner')
+    ebwp_secondary_contact = models.CharField(max_length=2000, blank=True, null=True,
+                                              verbose_name='EBWP Secondary Contact or Owner')
+
     quantity = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True, verbose_name='EBWP Quantity')
     uom_id = models.IntegerField(verbose_name='EBWP UOM ID')
     ebwp_hours = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
                                      verbose_name='EBWP Hours')
     ebwp_costs = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
                                      verbose_name='EBWP Costs')
-    ebwp_comments = models.CharField(max_length=200, blank=True, null=True, verbose_name='EBWP Comments')
-    ebwp_primary_contact = models.CharField(max_length=2000, blank=True, null=True,
-                                            verbose_name='EBWP Primary Contact or Owner')
-    ebwp_secondary_contact = models.CharField(max_length=2000, blank=True, null=True,
-                                              verbose_name='EBWP Secondary Contact or Owner')
     dml_action = models.CharField(max_length=2000, blank=True, null=True, verbose_name='DML Action')
     modified_by = models.CharField(unique=False, max_length=55, verbose_name='Modified By')
     modified_date = models.DateTimeField(unique=False, verbose_name='Modified Date')

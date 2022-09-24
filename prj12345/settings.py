@@ -118,19 +118,19 @@ WSGI_APPLICATION = 'prj12345.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'OPTIONS': {
-#             'options': '-c search_path=dbo'
-#         },
-#         'NAME': 'CSL_D_PG_22',
-#         'USER': 'csl_developer',
-#         'PASSWORD': 'CAMEOSE2017$',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'OPTIONS': {
+            'options': '-c search_path=dbo'
+        },
+        'NAME': 'prj_12345_pg',
+        'USER': 'cameose_superuser',
+        'PASSWORD': 'cameose_superuser_2022$',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 # DATABASES = {
 #     'default': {
@@ -149,29 +149,29 @@ WSGI_APPLICATION = 'prj12345.wsgi.application'
 # SQLServer
 # Unable to migrate properly with Django v 3.1 and higher, need to Roll back to Django 3.0.14 or 2.2.28, migrate and
 # then upgrade Django again
-DATABASES = {
-    'default': {
-        # 'ENGINE': 'django_pyodbc',
-        # 'ENGINE': 'sql_server.pyodbc',
-        # 'ENGINE': 'django.db.backends.mssql',
-        'ENGINE': 'mssql',
-        'NAME': 'd_js1_a',
-        # 'NAME': 'bhp_n3sr',
-        # 'NAME': 'bhp_js1',
-        # 'NAME': 'CSL_D_SS_12345',
-        # 'NAME': 'CSL_D_SS_54321',
-        'USER': 'cameose_developer',
-        'PASSWORD': 'cameose_developer',
-        # 'HOST': 'localhost',
-        'HOST': 'JANL0084\SQLEXPRESS',
-        # 'HOST': '216.197.202.178',
-        # 'HOST': '172.28.192.1',
-        'PORT': '',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-        },
-    },
-}
+# DATABASES = {
+#     'default': {
+#         # 'ENGINE': 'django_pyodbc',
+#         # 'ENGINE': 'sql_server.pyodbc',
+#         # 'ENGINE': 'django.db.backends.mssql',
+#         'ENGINE': 'mssql',
+#         'NAME': 'd_js1_a',
+#         # 'NAME': 'bhp_n3sr',
+#         # 'NAME': 'bhp_js1',
+#         # 'NAME': 'CSL_D_SS_12345',
+#         # 'NAME': 'CSL_D_SS_54321',
+#         'USER': 'cameose_developer',
+#         'PASSWORD': 'cameose_developer',
+#         # 'HOST': 'localhost',
+#         'HOST': 'JANL0084\SQLEXPRESS',
+#         # 'HOST': '216.197.202.178',
+#         # 'HOST': '172.28.192.1',
+#         'PORT': '',
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',
+#         },
+#     },
+# }
 
 # DATABASES = {
 #     'default': {

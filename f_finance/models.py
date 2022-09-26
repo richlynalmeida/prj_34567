@@ -10,7 +10,7 @@ class CBWPAccountsReceivable(models.Model):
     #                                verbose_name='Accounts Receivable Costs on Calendar Date', default=0)
     ar_costs = MoneyField(max_digits=18, decimal_places=2, blank=True, null=True,
                           verbose_name='Accounts Receivable Costs on Calendar Date',
-                          default=0)
+                          default_currency='CAD')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
@@ -32,7 +32,7 @@ class CBWPAccountsPayable(models.Model):
     #                                verbose_name='Accounts Payable Costs on Calendar Date', default=0)
     ap_costs = MoneyField(max_digits=18, decimal_places=2, blank=True, null=True,
                           verbose_name='Accounts Payable Costs on Calendar Date',
-                          default=0)
+                          default_currency='CAD')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:

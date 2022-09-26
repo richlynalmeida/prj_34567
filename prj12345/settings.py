@@ -124,10 +124,11 @@ DATABASES = {
         'OPTIONS': {
             'options': '-c search_path=dbo'
         },
-        'NAME': 'prj_12345_pg',
+        # 'NAME': 'prj_12345_pg',
+        'NAME': 'postgres',
         'USER': 'cameose_superuser',
         'PASSWORD': 'cameose_superuser_2022$',
-        'HOST': 'localhost',
+        'HOST': '34.83.227.208',
         'PORT': '5432',
     }
 }

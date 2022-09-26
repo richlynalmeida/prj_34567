@@ -14,7 +14,7 @@ class CBWPActuals(models.Model):
     #                                             default=0)
     forecast_actual_costs = MoneyField(max_digits=18, decimal_places=2, blank=True, null=True,
                                        verbose_name='Forecasted Actuals Costs on Calendar Date',
-                                       default=0)
+                                       default_currency='CAD')
     incurred_actual_hours = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
                                                 verbose_name='Incurred Actuals Hours on Calendar Date',
                                                 default=0)
@@ -23,7 +23,7 @@ class CBWPActuals(models.Model):
     #                                             default=0)
     incurred_actual_costs = MoneyField(max_digits=18, decimal_places=2, blank=True, null=True,
                                        verbose_name='Incurred Actuals Costs on Calendar Date',
-                                       default=0)
+                                       default_currency='CAD')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:

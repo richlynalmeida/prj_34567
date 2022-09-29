@@ -50,7 +50,7 @@ class Contract(models.Model):
     parent_contract = models.ForeignKey("f_contracts.Contract", on_delete=models.CASCADE,
                                         verbose_name='Parent Contract Code', null=True, blank=True, default=1)
     contract_code = models.CharField(unique=True, max_length=10, verbose_name='Contract Code')
-    contract_title = models.CharField(unique=True, max_length=55, blank=True, null=True, verbose_name='Contract Title')
+    contract_title = models.CharField(unique=True, max_length=100, blank=True, null=True, verbose_name='Contract Title')
     discipline = models.ForeignKey(Discipline, on_delete=models.CASCADE, verbose_name='Discipline ID')
     contract_tender_costs = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
                                                 verbose_name='Contract Tender Costs',

@@ -21,6 +21,26 @@ class StakeholderRoles(models.Model):
         return f"{self.stakeholder_role_code} - {self.stakeholder_role_title}"
 
 
+class StakeholderRoles2(models.Model):
+    id = models.AutoField(primary_key=True)
+    stakeholder_role_code = models.CharField(unique=True, max_length=2, verbose_name='Stakeholder Role Code')
+    stakeholder_role_title = models.CharField(unique=True, blank=True, null=True, max_length=20,
+                                              verbose_name='Stakeholder Role Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "Stakeholder Roles2"
+        db_table = 'stakeholder_role2'
+        app_label = 'a_hr'
+        ordering = ['stakeholder_role_code']
+
+    # def __str__(self):
+    #     return str('%s' % self.stakeholder_role_code)
+    def __str__(self):
+        return f"{self.stakeholder_role_code} - {self.stakeholder_role_title}"
+
+
 class Privilege(models.Model):
     privilege_code = models.CharField(unique=True, max_length=1, verbose_name='Privilege Code')
     privilege_title = models.CharField(unique=True, max_length=55, verbose_name='Privilege Title')
@@ -111,15 +131,18 @@ class Personnel(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE,
                                 verbose_name='Company ID')
     personnel_code = models.CharField(unique=True, max_length=3, verbose_name='Personnel Code')
-    personnel_title = models.CharField(unique=True, max_length=55, verbose_name='Personnel Title')
+    personnel_title = models.CharField(unique=False, max_length=55, verbose_name='Personnel Title')
     first_name = models.CharField(verbose_name='First Name', max_length=50, blank=True, null=True)
     middle_name = models.CharField(verbose_name='Middle Name', max_length=50, blank=True, null=True)
     last_name = models.CharField(verbose_name='Last Name', max_length=50, blank=True, null=True)
     email = models.EmailField(max_length=254, verbose_name='E-mail', blank=True, null=True)
     phoneNumberRegex = RegexValidator(regex=r"^\+?1?\d{8,15}$")
-    business_phone = models.CharField(validators=[phoneNumberRegex], max_length=16, verbose_name='Business Phone')
-    home_phone = models.CharField(validators=[phoneNumberRegex], max_length=16, verbose_name='Home Phone')
-    mobile_phone = models.CharField(validators=[phoneNumberRegex], max_length=16, verbose_name='Mobile Phone')
+    business_phone = models.CharField(validators=[phoneNumberRegex], max_length=16, blank=True, null=True,
+                                      verbose_name='Business Phone')
+    home_phone = models.CharField(validators=[phoneNumberRegex], max_length=16, blank=True, null=True,
+                                  verbose_name='Home Phone')
+    mobile_phone = models.CharField(validators=[phoneNumberRegex], max_length=16, blank=True, null=True,
+                                    verbose_name='Mobile Phone')
     address1 = models.CharField(verbose_name='Address Line 1', blank=True, null=True, max_length=1024)
     address2 = models.CharField(verbose_name='Address Line 2', blank=True, null=True, max_length=1024)
     zip_postal_code = models.CharField(verbose_name='ZIP/Postal Code', max_length=15, blank=True, null=True)

@@ -3,6 +3,7 @@ from a_hr.models import Company, StakeholderRoles
 from b_wbs.models import Discipline
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
+from g_measures.models import UOM
 
 
 class ContractType(models.Model):
@@ -126,6 +127,7 @@ class TrendTypes(models.Model):
     trend_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
                                         verbose_name='Trend Type Title')
     scope_related_check = models.IntegerField(default=0, verbose_name='Scope Related Check')
+
     # 0 - Non-Scope Related; 1 - Scope Related
 
     class Meta:

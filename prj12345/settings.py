@@ -125,7 +125,8 @@ DATABASES = {
             'options': '-c search_path=dbo'
         },
         # 'NAME': 'prj_12345_pg',
-        'NAME': 'D12345',
+        # 'NAME': 'D12345',
+        'NAME': 'D23456',
         'USER': 'cameose_superuser',
         'PASSWORD': 'cameose_superuser_2022$',
         'HOST': 'localhost',

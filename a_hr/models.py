@@ -21,26 +21,6 @@ class StakeholderRoles(models.Model):
         return f"{self.stakeholder_role_code} - {self.stakeholder_role_title}"
 
 
-class StakeholderRoles2(models.Model):
-    id = models.AutoField(primary_key=True)
-    stakeholder_role_code = models.CharField(unique=True, max_length=2, verbose_name='Stakeholder Role Code')
-    stakeholder_role_title = models.CharField(unique=True, blank=True, null=True, max_length=20,
-                                              verbose_name='Stakeholder Role Title')
-    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
-
-    class Meta:
-        managed = True
-        verbose_name_plural = "Stakeholder Roles2"
-        db_table = 'stakeholder_role2'
-        app_label = 'a_hr'
-        ordering = ['stakeholder_role_code']
-
-    # def __str__(self):
-    #     return str('%s' % self.stakeholder_role_code)
-    def __str__(self):
-        return f"{self.stakeholder_role_code} - {self.stakeholder_role_title}"
-
-
 class Privilege(models.Model):
     privilege_code = models.CharField(unique=True, max_length=1, verbose_name='Privilege Code')
     privilege_title = models.CharField(unique=True, max_length=55, verbose_name='Privilege Title')

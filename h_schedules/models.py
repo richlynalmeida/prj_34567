@@ -1,43 +1,42 @@
 from django.db import models
-from b_wbs.models import Discipline, EBWPType, CBWPType
+from b_wbs.models import Discipline
+from z_tab_pmb_quantum.models import PmbWpExecutionType, TabWpExecutionType
 
 
-class EBSchedule(models.Model):
+class TABSchedule(models.Model):
     discipline = models.ForeignKey(Discipline, on_delete=models.CASCADE, verbose_name='Discipline Code')
-    ebwp_type = models.ForeignKey(EBWPType, on_delete=models.CASCADE, verbose_name='EBWP Type Code')
-    eb_schedule_code = models.CharField(unique=True, max_length=55, verbose_name='EB Schedule Code')
-    eb_schedule_title = models.CharField(max_length=2000, blank=True, null=True, verbose_name='EB Schedule Title')
-    early_start_date = models.DateTimeField(blank=True, null=True, verbose_name='EB Early Start Date')
-    early_finish_date = models.DateTimeField(blank=True, null=True, verbose_name='EB Early Finish Date')
+    tab_wp_exe_type = models.ForeignKey(PmbWpExecutionType, on_delete=models.CASCADE, verbose_name='TAB Type Code', default=1)
+    tab_schedule_code = models.CharField(unique=True, max_length=55, verbose_name='TAB Schedule Code')
+    tab_schedule_title = models.CharField(max_length=2000, blank=True, null=True, verbose_name='TAB Schedule Title')
+    early_start_date = models.DateTimeField(blank=True, null=True, verbose_name='TAB Early Start Date')
+    early_finish_date = models.DateTimeField(blank=True, null=True, verbose_name='TAB Early Finish Date')
     early_start_to_early_finish_duration = models.IntegerField(blank=True, null=True,
-                                                               verbose_name='EB Early Start to Early Finish Duration')
-    late_start_date = models.DateTimeField(blank=True, null=True, verbose_name='EB Late Start Date')
-    late_finish_date = models.DateTimeField(blank=True, null=True, verbose_name='EB Late Finish Date')
+                                                               verbose_name='TAB Early Start to Early Finish Duration')
+    late_start_date = models.DateTimeField(blank=True, null=True, verbose_name='TAB Late Start Date')
+    late_finish_date = models.DateTimeField(blank=True, null=True, verbose_name='TAB Late Finish Date')
     late_start_to_late_finish_duration = models.IntegerField(blank=True, null=True,
-                                                             verbose_name='EB Late Start to Late Finish Duration')
-    critical_path_check = models.IntegerField(default=0, verbose_name='EB Critical Path Check')
-    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='EB Comments')
+                                                             verbose_name='TAB Late Start to Late Finish Duration')
+    critical_path_check = models.IntegerField(default=0, verbose_name='TAB Critical Path Check')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='TAB Comments')
 
     class Meta:
         managed = True
-        verbose_name_plural = "EB aka L03 Schedule"
-        db_table = 'eb_schedule'
+        verbose_name_plural = "TAB aka EB aka L03 Schedule"
+        db_table = 'tab_schedule'
         app_label = 'h_schedules'
-        ordering = ['eb_schedule_code']
+        ordering = ['tab_schedule_code']
 
-    # def __str__(self):
-    #     return str('%s' % self.eb_schedule_code)
     def __str__(self):
-        return f"{self.eb_schedule_code} - {self.eb_schedule_title}"
+        return f"{self.tab_schedule_code} - {self.tab_schedule_title}"
 
 
-class CBSchedule(models.Model):
+class PMBSchedule(models.Model):
     discipline = models.ForeignKey(Discipline, on_delete=models.CASCADE, verbose_name='Discipline Code')
-    cbwp_type = models.ForeignKey(CBWPType, on_delete=models.CASCADE, verbose_name='CBWP Type Code')
-    eb_schedule = models.ForeignKey(EBSchedule, on_delete=models.CASCADE,
-                                    verbose_name='EB Schedule Code')
-    cb_schedule_code = models.CharField(unique=True, max_length=55, verbose_name='CB Schedule Code')
-    cb_schedule_title = models.CharField(max_length=2000, blank=True, null=True, verbose_name='CB Schedule Title')
+    pmb_wp_exe_type = models.ForeignKey(PmbWpExecutionType, on_delete=models.CASCADE, verbose_name='PMB Type Code', default=1)
+    tab_schedule = models.ForeignKey(TABSchedule, on_delete=models.CASCADE,
+                                     verbose_name='TAB Schedule Code')
+    pmb_schedule_code = models.CharField(unique=True, max_length=55, verbose_name='CB Schedule Code')
+    pmb_schedule_title = models.CharField(max_length=2000, blank=True, null=True, verbose_name='CB Schedule Title')
     early_start_date = models.DateTimeField(blank=True, null=True, verbose_name='CB Early Start Date')
     early_finish_date = models.DateTimeField(blank=True, null=True, verbose_name='CB Early Finish Date')
     early_start_to_early_finish_duration = models.IntegerField(blank=True, null=True,
@@ -51,12 +50,10 @@ class CBSchedule(models.Model):
 
     class Meta:
         managed = True
-        verbose_name_plural = "CB aka L04 Schedule"
-        db_table = 'cb_schedule'
+        verbose_name_plural = "PMB aka CB aka L04 Schedule"
+        db_table = 'pmb_schedule'
         app_label = 'h_schedules'
-        ordering = ['cb_schedule_code']
+        ordering = ['pmb_schedule_code']
 
-    # def __str__(self):
-    #     return str('%s' % self.cb_schedule_code)
     def __str__(self):
-        return f"{self.cb_schedule_code} - {self.cb_schedule_title}"
+        return f"{self.pmb_schedule_code} - {self.pmb_schedule_title}"

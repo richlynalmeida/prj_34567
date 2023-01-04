@@ -1,9 +1,115 @@
 from django.db import models
 
 
+class WBSType(models.Model):
+    wbs_type_code = models.CharField(unique=True, max_length=5, verbose_name='WBS Type Code')
+    wbs_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+                                      verbose_name='WBS Type Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "WBS Types"
+        db_table = 'wbs_type'
+        app_label = 'b_wbs'
+        ordering = ['wbs_type_code']
+
+    def __str__(self):
+        return f"{self.wbs_type_code} - {self.wbs_type_title}"
+
+
+class WBS(models.Model):
+    wbs_type = models.ForeignKey(WBSType, on_delete=models.CASCADE, verbose_name='WBS Type ID', default=1)
+    wbs_code = models.CharField(unique=True, max_length=5, verbose_name='WBS Code')
+    wbs_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+                                 verbose_name='WBS Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "WBS"
+        db_table = 'wbs'
+        app_label = 'b_wbs'
+        ordering = ['wbs_code']
+        unique_together = ['wbs_type', 'wbs_code']
+
+    def __str__(self):
+        return f"{self.wbs_code} - {self.wbs_title}"
+
+
+class TabWpExecutionType(models.Model):
+    tab_wp_exe_type_code = models.CharField(unique=True, max_length=5, verbose_name='TAB WP Execution Type Code')
+    tab_wp_exe_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+                                             verbose_name='TAB WP Execution Type Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "TAB WP Execution Types"
+        db_table = 'tab_wp_exe_type'
+        app_label = 'b_wbs'
+        ordering = ['tab_wp_exe_type_code']
+
+    def __str__(self):
+        return f"{self.tab_wp_exe_type_code} - {self.tab_wp_exe_type_title}"
+
+
+class PmbWpExecutionType(models.Model):
+    tab_wp_exe_type = models.ForeignKey(TabWpExecutionType, on_delete=models.CASCADE,
+                                          verbose_name='TAB WP Execution Type ID', default=1)
+    pmb_wp_exe_type_code = models.CharField(unique=True, max_length=5, verbose_name='PMB WP Execution Type Code')
+    pmb_wp_exe_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+                                             verbose_name='PMB WP Execution Type Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "PMB WP Execution Types"
+        db_table = 'pmb_wp_exe_type'
+        app_label = 'b_wbs'
+        ordering = ['pmb_wp_exe_type_code']
+        unique_together = ['tab_wp_exe_type', 'pmb_wp_exe_type_code']
+
+    def __str__(self):
+        return f"{self.pmb_wp_exe_type_code} - {self.pmb_wp_exe_type_title}"
+
+
+class TabWpStatusType(models.Model):
+    tab_wp_status_code = models.CharField(unique=True, max_length=5, verbose_name='TAB WP Status Code')
+    tab_wp_status_title = models.CharField(unique=True, max_length=55, verbose_name='TAB WP Status Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "TAB WP Status Types"
+        db_table = 'tab_wp_status_type'
+        app_label = 'b_wbs'
+        ordering = ['tab_wp_status_code']
+
+    def __str__(self):
+        return f"{self.tab_wp_status_code} - {self.tab_wp_status_title}"
+
+
+class PmbWpStatusType(models.Model):
+    pmb_wp_status_code = models.CharField(unique=True, max_length=5, verbose_name='PMB WP Status Code')
+    pmb_wp_status_title = models.CharField(unique=True, max_length=55, verbose_name='PMB WP Status Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "PMB WP Status Types"
+        db_table = 'pmb_wp_status_type'
+        app_label = 'b_wbs'
+        ordering = ['pmb_wp_status_code']
+
+    def __str__(self):
+        return f"{self.pmb_wp_status_code} - {self.pmb_wp_status_title}"
+
+
 class Department(models.Model):
     department_code = models.CharField(unique=True, max_length=5, verbose_name='Department Code', )
     department_title = models.CharField(unique=True, max_length=55, verbose_name='Department Title', )
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
         managed = True
@@ -21,6 +127,7 @@ class Department(models.Model):
 class Discipline(models.Model):
     discipline_code = models.CharField(unique=True, max_length=5, verbose_name='Discipline Code')
     discipline_title = models.CharField(unique=True, max_length=55, verbose_name='Discipline Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
         managed = True
@@ -35,28 +142,11 @@ class Discipline(models.Model):
         return f"{self.discipline_code} - {self.discipline_title}"
 
 
-class WBSLocation(models.Model):
-    wbs_location_code = models.CharField(unique=True, max_length=5, verbose_name='WBS Location Code')
-    wbs_location_title = models.CharField(unique=True, blank=True, null=True, max_length=55,
-                                          verbose_name='WBS Location Title')
-
-    class Meta:
-        managed = True
-        verbose_name_plural = "WBS Locations"
-        db_table = 'wbs_location'
-        app_label = 'b_wbs'
-        ordering = ['wbs_location_code']
-
-    # def __str__(self):
-    #     return str('%s' % self.wbs_location_code)
-    def __str__(self):
-        return f"{self.wbs_location_code} - {self.wbs_location_title}"
-
-
 class CostTypeClass(models.Model):
-    cost_type_class_code = models.CharField(unique=True, max_length=2, verbose_name='Cost Type Class Code')
+    cost_type_class_code = models.CharField(unique=True, max_length=10, verbose_name='Cost Type Class Code')
     cost_type_class_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
                              verbose_name='Cost Type Class Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
         managed = True
@@ -72,11 +162,10 @@ class CostTypeClass(models.Model):
 
 
 class CostType(models.Model):
-    cost_type_class = models.ForeignKey(CostTypeClass, on_delete=models.CASCADE,
-                                          verbose_name='Cost Type Class ID')
-    cost_type_code = models.CharField(unique=True, max_length=5, verbose_name='Cost Type Code')
+    cost_type_code = models.CharField(unique=True, max_length=20, verbose_name='Cost Type Code')
     cost_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
                              verbose_name='Cost Type Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
         managed = True
@@ -95,6 +184,7 @@ class FacilitySystem(models.Model):
     facility_system_code = models.CharField(unique=True, max_length=5, verbose_name='Facility System Code')
     facility_system_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
                                              verbose_name='Facility System Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
         managed = True
@@ -115,6 +205,7 @@ class FacilitySystemDetail(models.Model):
                                                    verbose_name='Facility System Detail Code')
     facility_system_detail_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
                                                     verbose_name='Facility System Detail Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
         managed = True
@@ -129,76 +220,67 @@ class FacilitySystemDetail(models.Model):
     def __str__(self):
         return f"{self.facility_system_detail_code} - {self.facility_system_detail_title}"
 
-
-class EBWPType(models.Model):
-    ebwp_type_code = models.CharField(unique=True, max_length=5, verbose_name='EBWP Type Code')
-    ebwp_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
-                                       verbose_name='EBWP Type Title')
-    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='EBWP Type Comments')
-
-    class Meta:
-        managed = True
-        verbose_name_plural = "EBWP Types"
-        db_table = 'ebwp_type'
-        app_label = 'b_wbs'
-        ordering = ['ebwp_type_code']
-
-    # def __str__(self):
-    #     return str('%s' % self.ebwp_type_code)
-    def __str__(self):
-        return f"{self.ebwp_type_code} - {self.ebwp_type_title}"
+# class TABType(models.Model):
+#     tab_type_code = models.CharField(unique=True, max_length=5, verbose_name='TAB Type Code')
+#     tab_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+#                                        verbose_name='TAB Type Title')
+#     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='TAB Type Comments')
+#
+#     class Meta:
+#         managed = True
+#         verbose_name_plural = "TAB Types"
+#         db_table = 'tab_type'
+#         app_label = 'b_wbs'
+#         ordering = ['tab_type_code']
+#
+#     def __str__(self):
+#         return f"{self.tab_type_code} - {self.tab_type_title}"
 
 
-class EBWPStatus(models.Model):
-    ebwp_status_code = models.CharField(unique=True, max_length=5, verbose_name='EBWP Status Code')
-    ebwp_status_title = models.CharField(unique=True, max_length=55, verbose_name='EBWP Status Title')
-    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='EBWP Status Comments')
-
-    class Meta:
-        managed = True
-        verbose_name_plural = "EB Work Package Statuses"
-        db_table = 'ebwp_status'
-        app_label = 'b_wbs'
-        ordering = ['ebwp_status_code']
-
-    # def __str__(self):
-    #     return str('%s' % self.ebwp_status_code)
-    def __str__(self):
-        return f"{self.ebwp_status_code} - {self.ebwp_status_title}"
+# class TABStatus(models.Model):
+#     tab_status_code = models.CharField(unique=True, max_length=5, verbose_name='TAB Status Code')
+#     tab_status_title = models.CharField(unique=True, max_length=55, verbose_name='TAB Status Title')
+#     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='TAB Status Comments')
+#
+#     class Meta:
+#         managed = True
+#         verbose_name_plural = "EB Work Package Statuses"
+#         db_table = 'tab_status'
+#         app_label = 'b_wbs'
+#         ordering = ['tab_status_code']
+#
+#     def __str__(self):
+#         return f"{self.tab_status_code} - {self.tab_status_title}"
 
 
-class CBWPType(models.Model):
-    ebwp_type = models.ForeignKey(EBWPType, on_delete=models.CASCADE, verbose_name='EBWP Type ID')
-    cbwp_type_code = models.CharField(unique=True, max_length=5, verbose_name='CBWP Type Code')
-    cbwp_type_title = models.CharField(unique=True, max_length=55, verbose_name='CBWP Type Title')
-    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='CBWP Type Comments')
-
-    class Meta:
-        managed = True
-        verbose_name_plural = "CBWP Types"
-        db_table = 'cbwp_type'
-        app_label = 'b_wbs'
-        ordering = ['cbwp_type_code']
+# class PMBType(models.Model):
+#     tab_type = models.ForeignKey(TABType, on_delete=models.CASCADE, verbose_name='TAB Type ID')
+#     pmb_type_code = models.CharField(unique=True, max_length=5, verbose_name='PMB Type Code')
+#     pmb_type_title = models.CharField(unique=True, max_length=55, verbose_name='PMB Type Title')
+#     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='PMB Type Comments')
+#
+#     class Meta:
+#         managed = True
+#         verbose_name_plural = "PMB Types"
+#         db_table = 'pmb_type'
+#         app_label = 'b_wbs'
+#         ordering = ['pmb_type_code']
 
     # def __str__(self):
-    #     return str('%s' % self.cbwp_type_code)
-    def __str__(self):
-        return f"{self.cbwp_type_code} - {self.cbwp_type_title}"
+    #     return f"{self.pmb_type_code} - {self.pmb_type_title}"
 
 
-class CBWPStatus(models.Model):
-    cbwp_status_code = models.CharField(unique=True, max_length=5, verbose_name='CBWP Status Code')
-    cbwp_status_title = models.CharField(unique=True, max_length=55, verbose_name='CBWP Status Title')
-    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='CBWP Status Comments')
-
-    class Meta:
-        managed = True
-        verbose_name_plural = "CB Work Package Statuses"
-        db_table = 'cbwp_status'
-        app_label = 'b_wbs'
-        ordering = ['cbwp_status_code']
-
-    # def __str__(self):
-    #     return str('%s' % self.cbwp_status_code)
-    def __str__(self):
-        return f"{self.cbwp_status_code} - {self.cbwp_status_title}"
+# class PMBStatus(models.Model):
+#     pmb_status_code = models.CharField(unique=True, max_length=5, verbose_name='PMB Status Code')
+#     pmb_status_title = models.CharField(unique=True, max_length=55, verbose_name='PMB Status Title')
+#     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='PMB Status Comments')
+#
+#     class Meta:
+#         managed = True
+#         verbose_name_plural = "CB Work Package Statuses"
+#         db_table = 'pmb_status'
+#         app_label = 'b_wbs'
+#         ordering = ['pmb_status_code']
+#
+#     def __str__(self):
+#         return f"{self.pmb_status_code} - {self.pmb_status_title}"

@@ -1,6 +1,6 @@
 from django.db import models
 from a_hr.models import Personnel, Company
-from i_eb.models import EBWP
+# from i_eb.models import EBWP
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 

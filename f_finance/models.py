@@ -1,10 +1,11 @@
 from django.db import models
-from j_cb.models import CBWP
+# from j_cb.models import CBWP
 from djmoney.models.fields import MoneyField
+from z_tab_pmb_quantum.models import PmbWpCaL04
 
 
-class CBWPAccountsReceivable(models.Model):
-    cbwp = models.ForeignKey(CBWP, on_delete=models.CASCADE, verbose_name='CBWP ID')
+class PmbWpCaL04AccountsReceivable(models.Model):
+    pmb_wp_ca_L04 = models.ForeignKey(PmbWpCaL04, on_delete=models.CASCADE, verbose_name='PMB WP CA L04 ID')
     calendar_date = models.DateTimeField(verbose_name='Calendar Date')
     # ar_costs = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
     #                                verbose_name='Accounts Receivable Costs on Calendar Date', default=0)
@@ -15,18 +16,18 @@ class CBWPAccountsReceivable(models.Model):
 
     class Meta:
         managed = True
-        unique_together = (('cbwp', 'calendar_date'),)
-        verbose_name_plural = "CBWP Accounts Receivable"
-        db_table = 'cbwp_accounts_receivable'
+        unique_together = (('pmb_wp_ca_L04', 'calendar_date'),)
+        verbose_name_plural = "PMB WP CA L04 Accounts Receivable"
+        db_table = 'pmb_wp_ca_L04_ar'
         app_label = 'f_finance'
-        ordering = ['cbwp', 'calendar_date']
+        ordering = ['pmb_wp_ca_L04', 'calendar_date']
 
     def __bytes__(self):
-        return bytes('%s %s' % (self.calendar_date, self.cbwp))
+        return bytes('%s %s' % (self.calendar_date, self.pmb_wp_ca_L04))
 
 
-class CBWPAccountsPayable(models.Model):
-    cbwp = models.ForeignKey(CBWP, on_delete=models.CASCADE, verbose_name='CBWP ID')
+class PmbWpCaL04AccountsPayable(models.Model):
+    pmb_wp_ca_L04 = models.ForeignKey(PmbWpCaL04, on_delete=models.CASCADE, verbose_name='PMB WP CA L04 ID')
     calendar_date = models.DateTimeField(verbose_name='Calendar Date')
     # ap_costs = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
     #                                verbose_name='Accounts Payable Costs on Calendar Date', default=0)
@@ -37,11 +38,11 @@ class CBWPAccountsPayable(models.Model):
 
     class Meta:
         managed = True
-        unique_together = (('cbwp', 'calendar_date'),)
-        verbose_name_plural = "CBWP Accounts Payable"
-        db_table = 'cbwp_accounts_payable'
+        unique_together = (('pmb_wp_ca_L04', 'calendar_date'),)
+        verbose_name_plural = "PMB WP CA L04 Accounts Payable"
+        db_table = 'pmb_wp_ca_L04_ap'
         app_label = 'f_finance'
-        ordering = ['cbwp', 'calendar_date']
+        ordering = ['pmb_wp_ca_L04', 'calendar_date']
 
     def __bytes__(self):
-        return bytes('%s %s' % (self.calendar_date, self.cbwp))
+        return bytes('%s %s' % (self.calendar_date, self.pmb_wp_ca_L04))

@@ -4,14 +4,24 @@ from . import models
 # admin.site.register(models.Department)
 # admin.site.register(models.Discipline)
 # admin.site.register(models.WBSLocation)
+admin.site.register(models.WBSType)
+admin.site.register(models.WBS)
+admin.site.register(models.TabWpExecutionType)
+admin.site.register(models.PmbWpExecutionType)
+admin.site.register(models.TabWpStatusType)
+admin.site.register(models.PmbWpStatusType)
 admin.site.register(models.CostTypeClass)
 admin.site.register(models.CostType)
 admin.site.register(models.FacilitySystem)
 admin.site.register(models.FacilitySystemDetail)
-admin.site.register(models.EBWPType)
-admin.site.register(models.EBWPStatus)
-admin.site.register(models.CBWPType)
-admin.site.register(models.CBWPStatus)
+# admin.site.register(models.EBWPType)
+# admin.site.register(models.TABType)
+# admin.site.register(models.EBWPStatus)
+# admin.site.register(models.TABStatus)
+# admin.site.register(models.CBWPType)
+# admin.site.register(models.PMBType)
+# admin.site.register(models.CBWPStatus)
+# admin.site.register(models.PMBStatus)
 
 
 class DepartmentAdmin(admin.ModelAdmin):
@@ -38,16 +48,3 @@ class DisciplineAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Discipline, DisciplineAdmin)
-
-
-class WBSLocationAdmin(admin.ModelAdmin):
-    list_display = ('wbs_location_code', 'wbs_location_title', 'id',)
-    list_filter = ('wbs_location_code', 'wbs_location_title', 'id',)
-    list_editable = ()
-    list_display_links = ('wbs_location_code', 'wbs_location_title', 'id',)
-    search_fields = ('wbs_location_code', 'wbs_location_title', 'id',)
-    ordering = ('wbs_location_code',)
-    list_per_page = 10
-
-
-admin.site.register(models.WBSLocation, WBSLocationAdmin)

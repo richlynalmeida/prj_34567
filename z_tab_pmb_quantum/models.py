@@ -128,12 +128,12 @@ class PmbWpCaL04(models.Model):
     # Quantification, Pricing, Hours and Costs
     uom = models.ForeignKey(UOM, on_delete=models.CASCADE, verbose_name='CBWP UOM ID', default=1)
     # Current Forecast Budget
-    cfb_quantity = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
-                                       verbose_name='CFB Quantity', default=0)
-    cfb_hours = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
-                                    verbose_name='CFB Hours', default=0)
-    cfb_costs = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
-                                    verbose_name='CFB Costs', default=0)
+    bac_quantity = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
+                                       verbose_name='BAC Quantity', default=0)
+    bac_hours = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
+                                    verbose_name='BAC Hours', default=0)
+    bac_costs = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
+                                    verbose_name='BAC Costs', default=0)
 
     class Meta:
         managed = True
@@ -229,8 +229,8 @@ class PmbWpCaL04Quantum(models.Model):
     # Quantification, Pricing, Hours and Costs
     # uom = models.ForeignKey(UOM, on_delete=models.CASCADE, verbose_name='CBWP UOM ID', default=1)
     # Current Forecast Budget
-    cfb_quantity = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
-                                       verbose_name='CFB Quantity', default=0)
+    bac_quantum_quantity = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
+                                       verbose_name='BAC Quantum Quantity', default=0)
     # cfb_hours = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
     #                                 verbose_name='CFB Hours', default=0)
     # cfb_costs = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,

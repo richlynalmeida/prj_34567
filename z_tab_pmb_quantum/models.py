@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from a_hr.models import Personnel, RaciMatrixDefinition
+from a_hr.models import Personnel, RaciMatrixDefinition, StakeholderRoles
 from b_wbs.models import CostTypeClass, CostType, Department, Discipline, WBSType, WBS, FacilitySystem, \
     FacilitySystemDetail, TabWpExecutionType, PmbWpExecutionType, PmbWpStatusType
 from e_commodities.models import CommodityType, Commodity
@@ -57,7 +57,7 @@ class PmbWp(models.Model):
 class PmbWpCaL03(models.Model):
     pmb_wp = models.ForeignKey(PmbWp, on_delete=models.CASCADE,
                                verbose_name='PMB WP ID', default=1)
-    cost_type_class = models.ForeignKey(CostTypeClass, on_delete=models.CASCADE, verbose_name='CBWP Cost Type Class ID',
+    stakeholder_role = models.ForeignKey(StakeholderRoles, on_delete=models.CASCADE, verbose_name='Stakeholder Role ID',
                                         default=1)
     cost_type = models.ForeignKey(CostType, on_delete=models.CASCADE, verbose_name='CBWP Cost Type ID',
                                   default=1)

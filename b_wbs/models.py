@@ -56,7 +56,7 @@ class TabWpExecutionType(models.Model):
 
 class PmbWpExecutionType(models.Model):
     tab_wp_exe_type = models.ForeignKey(TabWpExecutionType, on_delete=models.CASCADE,
-                                          verbose_name='TAB WP Execution Type ID', default=1)
+                                        verbose_name='TAB WP Execution Type ID', default=1)
     pmb_wp_exe_type_code = models.CharField(unique=True, max_length=5, verbose_name='PMB WP Execution Type Code')
     pmb_wp_exe_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
                                              verbose_name='PMB WP Execution Type Title')
@@ -145,7 +145,7 @@ class Discipline(models.Model):
 class CostTypeClass(models.Model):
     cost_type_class_code = models.CharField(unique=True, max_length=10, verbose_name='Cost Type Class Code')
     cost_type_class_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
-                             verbose_name='Cost Type Class Title')
+                                             verbose_name='Cost Type Class Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
@@ -162,9 +162,11 @@ class CostTypeClass(models.Model):
 
 
 class CostType(models.Model):
+    cost_type_class = models.ForeignKey(CostTypeClass, on_delete=models.CASCADE, verbose_name='Cost Type Class ID',
+                                        default=1)
     cost_type_code = models.CharField(unique=True, max_length=20, verbose_name='Cost Type Code')
     cost_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
-                             verbose_name='Cost Type Title')
+                                       verbose_name='Cost Type Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
@@ -266,8 +268,8 @@ class FacilitySystemDetail(models.Model):
 #         app_label = 'b_wbs'
 #         ordering = ['pmb_type_code']
 
-    # def __str__(self):
-    #     return f"{self.pmb_type_code} - {self.pmb_type_title}"
+# def __str__(self):
+#     return f"{self.pmb_type_code} - {self.pmb_type_title}"
 
 
 # class PMBStatus(models.Model):

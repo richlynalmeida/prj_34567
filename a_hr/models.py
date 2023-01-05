@@ -3,8 +3,8 @@ from django.core.validators import RegexValidator
 
 
 class StakeholderRoles(models.Model):
-    stakeholder_role_code = models.CharField(unique=True, max_length=2, verbose_name='Stakeholder Role Code')
-    stakeholder_role_title = models.CharField(unique=True, blank=True, null=True, max_length=20,
+    stakeholder_role_code = models.CharField(unique=True, max_length=5, verbose_name='Stakeholder Role Code')
+    stakeholder_role_title = models.CharField(unique=True, blank=True, null=True, max_length=55,
                                               verbose_name='Stakeholder Role Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 

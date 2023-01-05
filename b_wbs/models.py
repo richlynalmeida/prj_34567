@@ -37,73 +37,73 @@ class WBS(models.Model):
         return f"{self.wbs_code} - {self.wbs_title}"
 
 
-class TabWpExecutionType(models.Model):
-    tab_wp_exe_type_code = models.CharField(unique=True, max_length=5, verbose_name='TAB WP Execution Type Code')
-    tab_wp_exe_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
-                                             verbose_name='TAB WP Execution Type Title')
+class PmbL03WpExecutionType(models.Model):
+    pmb_L03_wp_exe_type_code = models.CharField(unique=True, max_length=5, verbose_name='PMB L03 Execution Type Code')
+    pmb_L03_wp_exe_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+                                                 verbose_name='PMB L03 WP Execution Type Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
         managed = True
-        verbose_name_plural = "TAB WP Execution Types"
-        db_table = 'tab_wp_exe_type'
+        verbose_name_plural = "PMB L03 Work Package Execution Types"
+        db_table = 'pmb_L03_wp_exe_type'
         app_label = 'b_wbs'
-        ordering = ['tab_wp_exe_type_code']
+        ordering = ['pmb_L03_wp_exe_type_code']
 
     def __str__(self):
-        return f"{self.tab_wp_exe_type_code} - {self.tab_wp_exe_type_title}"
+        return f"{self.pmb_L03_wp_exe_type_code} - {self.pmb_L03_wp_exe_type_title}"
 
 
-class PmbWpExecutionType(models.Model):
-    tab_wp_exe_type = models.ForeignKey(TabWpExecutionType, on_delete=models.CASCADE,
-                                        verbose_name='TAB WP Execution Type ID', default=1)
-    pmb_wp_exe_type_code = models.CharField(unique=True, max_length=5, verbose_name='PMB WP Execution Type Code')
-    pmb_wp_exe_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
-                                             verbose_name='PMB WP Execution Type Title')
+class PmbL04WpExecutionType(models.Model):
+    pmb_L03_wp_exe_type = models.ForeignKey(PmbL03WpExecutionType, on_delete=models.CASCADE,
+                                            verbose_name='PMB L03 WP Execution Type ID', default=1)
+    pmb_L04_wp_exe_type_code = models.CharField(unique=True, max_length=5,
+                                                verbose_name='PMB L04 WP Execution Type Code')
+    pmb_L04_wp_exe_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+                                                 verbose_name='PMB L04 WP Execution Type Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
         managed = True
-        verbose_name_plural = "PMB WP Execution Types"
-        db_table = 'pmb_wp_exe_type'
+        verbose_name_plural = "PMB L04 Work Package Execution Types"
+        db_table = 'pmb_L04_wp_exe_type'
         app_label = 'b_wbs'
-        ordering = ['pmb_wp_exe_type_code']
-        unique_together = ['tab_wp_exe_type', 'pmb_wp_exe_type_code']
+        ordering = ['pmb_L04_wp_exe_type_code']
 
     def __str__(self):
-        return f"{self.pmb_wp_exe_type_code} - {self.pmb_wp_exe_type_title}"
+        return f"{self.pmb_L04_wp_exe_type_code} - {self.pmb_L04_wp_exe_type_title}"
 
 
-class TabWpStatusType(models.Model):
-    tab_wp_status_code = models.CharField(unique=True, max_length=5, verbose_name='TAB WP Status Code')
-    tab_wp_status_title = models.CharField(unique=True, max_length=55, verbose_name='TAB WP Status Title')
+class PmbL03WpStatusType(models.Model):
+    pmb_L03_wp_status_code = models.CharField(unique=True, max_length=5, verbose_name='PMB L03 WP Status Code')
+    pmb_L03_wp_status_title = models.CharField(unique=True, max_length=55, verbose_name='PMB L03 WP Status Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
         managed = True
-        verbose_name_plural = "TAB WP Status Types"
-        db_table = 'tab_wp_status_type'
+        verbose_name_plural = "PMB L03 WP Status Types"
+        db_table = 'pmb_L03_wp_status_type'
         app_label = 'b_wbs'
-        ordering = ['tab_wp_status_code']
+        ordering = ['pmb_L03_wp_status_code']
 
     def __str__(self):
-        return f"{self.tab_wp_status_code} - {self.tab_wp_status_title}"
+        return f"{self.pmb_L03_wp_status_code} - {self.pmb_L03_wp_status_title}"
 
 
-class PmbWpStatusType(models.Model):
-    pmb_wp_status_code = models.CharField(unique=True, max_length=5, verbose_name='PMB WP Status Code')
-    pmb_wp_status_title = models.CharField(unique=True, max_length=55, verbose_name='PMB WP Status Title')
+class PmbL04WpStatusType(models.Model):
+    pmb_L04_wp_status_code = models.CharField(unique=True, max_length=5, verbose_name='PMB L04 WP Status Code')
+    pmb_L04_wp_status_title = models.CharField(unique=True, max_length=55, verbose_name='PMB L04 WP Status Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
         managed = True
-        verbose_name_plural = "PMB WP Status Types"
-        db_table = 'pmb_wp_status_type'
+        verbose_name_plural = "PMB L04 WP Status Types"
+        db_table = 'pmb_L04_wp_status_type'
         app_label = 'b_wbs'
-        ordering = ['pmb_wp_status_code']
+        ordering = ['pmb_L04_wp_status_code']
 
     def __str__(self):
-        return f"{self.pmb_wp_status_code} - {self.pmb_wp_status_title}"
+        return f"{self.pmb_L04_wp_status_code} - {self.pmb_L04_wp_status_title}"
 
 
 class Department(models.Model):

@@ -5,8 +5,8 @@ from . import models
 # Register your models here.
 # admin.site.register(models.CBWPAccountsReceivable)
 # admin.site.register(models.CBWPAccountsPayable)
-admin.site.register(models.PmbWpCaL04AccountsReceivable)
-admin.site.register(models.PmbWpCaL04AccountsPayable)
+admin.site.register(models.PmbL04WpAccountsReceivable)
+admin.site.register(models.PmbL04WpAccountsPayable)
 
 #
 # class CBWPAccountsPayable(admin.ModelAdmin):

@@ -2,7 +2,7 @@ from django.db import models
 from a_hr.models import Personnel, Company, StakeholderRoles
 from g_measures.models import Boolean
 # from j_cb.models import CBWP
-from z_tab_pmb_quantum.models import PmbWpCaL04
+from z_tab_pmb_quantum.models import PmbL04Wp
 
 
 class RiskProbability(models.Model):
@@ -144,7 +144,7 @@ class Risks(models.Model):
                                        verbose_name='Risk TimeFrame ID')
     risk_monitoring_metric = models.ForeignKey(RiskMonitoringMetric, on_delete=models.CASCADE,
                                                verbose_name='Risk Monitoring Metric ID')
-    pmb_wp_ca_L04 = models.ForeignKey(PmbWpCaL04, on_delete=models.CASCADE, verbose_name='PMB WP CA L04 ID', default=1)
+    pmb_L04_wp = models.ForeignKey(PmbL04Wp, on_delete=models.CASCADE, verbose_name='PMB L04 WP ID', default=1)
     cost_or_schedule = models.CharField(unique=False, max_length=8, verbose_name='cost or Schedule', default='Cost')
 
     # class CostOrSchedule(models.TextChoices):

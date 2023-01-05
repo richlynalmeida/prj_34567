@@ -2,8 +2,8 @@ from django.contrib import admin
 from . import models
 
 
-admin.site.register(models.PmbWpCaL04ClaimDetail)
-admin.site.register(models.PmbWpCaL04ClaimDetailContractClauseReferences)
+admin.site.register(models.PmbL04WpClaimDetail)
+admin.site.register(models.PmbL04WpClaimDetailContractClauseReferences)
 
 
 class ClaimTypeAdmin(admin.ModelAdmin):

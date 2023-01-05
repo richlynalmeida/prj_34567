@@ -2,11 +2,11 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from a_hr.models import Personnel, RaciMatrixDefinition, StakeholderRoles
 from b_wbs.models import CostTypeClass, CostType, Department, Discipline, WBSType, WBS, FacilitySystem, \
-    FacilitySystemDetail, TabWpExecutionType, PmbWpExecutionType, PmbWpStatusType
+    FacilitySystemDetail, PmbL03WpExecutionType, PmbL04WpExecutionType, PmbL03WpStatusType, PmbL04WpStatusType
 from e_commodities.models import CommodityType, Commodity
 from f_contracts.models import Contract, TrendTypes
 from g_measures.models import UOM
-from h_schedules.models import TABSchedule, PMBSchedule
+from h_schedules.models import PMBL03Schedule, PMBL04Schedule
 from d_mm.models import PurchaseOrder
 from django.db import models
 from d_mm.models import MaterialStatus
@@ -14,56 +14,57 @@ from e_commodities.models import CommodityDetail
 from g_measures.models import MilepostTemplate
 
 
-class PmbWp(models.Model):
-    pmb_wp_exe_type = models.ForeignKey(PmbWpExecutionType, on_delete=models.CASCADE,
-                                        verbose_name='PMB WP Execution Type ID', default=1)
-    pmb_wp_status_type = models.ForeignKey(PmbWpStatusType, on_delete=models.CASCADE,
-                                           verbose_name='PMB WP Status Type ID', default=1)
+class PmbL03Wp(models.Model):
+    pmb_L03_wp_exe_type = models.ForeignKey(PmbL03WpExecutionType, on_delete=models.CASCADE,
+                                            verbose_name='PMB L03 WP Execution Type ID', default=1)
+    pmb_L03_wp_status_type = models.ForeignKey(PmbL03WpStatusType, on_delete=models.CASCADE,
+                                               verbose_name='PMB L03 WP Status Type ID', default=1)
     wbs = models.ForeignKey(WBS, on_delete=models.CASCADE,
                             verbose_name='WBS ID', default=1)
     department = models.ForeignKey(Department, on_delete=models.CASCADE,
                                    verbose_name='CBWP Department ID', default=1)
     discipline = models.ForeignKey(Discipline, on_delete=models.CASCADE,
                                    verbose_name='CBWP Discipline ID', default=1)
-    pmb_schedule = models.ForeignKey(PMBSchedule, on_delete=models.CASCADE,
-                                     verbose_name='PMB Schedule Activity ID', default=1)
+    pmb_L03_schedule = models.ForeignKey(PMBL03Schedule, on_delete=models.CASCADE,
+                                         verbose_name='PMB L03 Schedule Activity ID', default=1)
     disc_start_date = models.DateTimeField(blank=True, null=True,
                                            verbose_name='Discretionary Start Date')
     disc_finish_date = models.DateTimeField(blank=True, null=True,
                                             verbose_name='Discretionary Finish Date')
     facility_system_detail = models.ForeignKey(FacilitySystemDetail, on_delete=models.CASCADE,
                                                verbose_name='CBWP Facility System Detail ID', default=1)
-    pmb_wp_parent = models.ForeignKey('z_tab_pmb_quantum.PmbWp', on_delete=models.CASCADE,
-                                             verbose_name='Parent ID', null=True, blank=True, default=1)
+    pmb_wp_parent = models.ForeignKey('z_tab_pmb_quantum.PmbL03Wp', on_delete=models.CASCADE,
+                                      verbose_name='Parent ID', null=True, blank=True, default=1)
     primary_contact = models.CharField(unique=False, max_length=100, blank=True, null=True,
                                        verbose_name='CBWP Primary Contact or Owner')
     secondary_contact = models.CharField(unique=False, max_length=100, blank=True, null=True,
                                          verbose_name='CBWP Secondary Contact')
-    pmb_wp_code = models.CharField(unique=True, max_length=55, verbose_name='PMB WP Code')
-    pmb_wp_title = models.CharField(unique=True, max_length=200, blank=True, null=True, verbose_name='PMB WP Title')
+    pmb_L03_wp_code = models.CharField(unique=True, max_length=55, verbose_name='PMB L03 WP Code')
+    pmb_L03_wp_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
+                                        verbose_name='PMB L03 WP Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
     class Meta:
         managed = True
-        verbose_name_plural = "PMB WP Details"
-        db_table = 'pmb_wp'
+        verbose_name_plural = "PMB L03 WP Details"
+        db_table = 'pmb_L03_wp'
         app_label = 'z_tab_pmb_quantum'
-        ordering = ['pmb_wp_code']
+        ordering = ['pmb_L03_wp_code']
 
     def __str__(self):
-        return f"{self.pmb_wp_code} - {self.pmb_wp_title}"
+        return f"{self.pmb_L03_wp_code} - {self.pmb_L03_wp_title}"
 
 
-class PmbWpCaL03(models.Model):
-    pmb_wp = models.ForeignKey(PmbWp, on_delete=models.CASCADE,
-                               verbose_name='PMB WP ID', default=1)
+class PmbL03WpCa(models.Model):
+    pmb_L03_wp = models.ForeignKey(PmbL03Wp, on_delete=models.CASCADE,
+                                   verbose_name='PMB L03 WP ID', default=1)
     stakeholder_role = models.ForeignKey(StakeholderRoles, on_delete=models.CASCADE, verbose_name='Stakeholder Role ID',
-                                        default=1)
+                                         default=1)
     cost_type = models.ForeignKey(CostType, on_delete=models.CASCADE, verbose_name='CBWP Cost Type ID',
                                   default=1)
-    pmb_wp_ca_L03_code = models.CharField(unique=True, max_length=55, verbose_name='PMB WP CA L03 Code')
-    pmb_wp_ca_L03_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
-                                           verbose_name='PMB WP CA L03 Title')
+    pmb_L03_wp_ca_code = models.CharField(unique=True, max_length=55, verbose_name='PMB L03 WP CA Code')
+    pmb_L03_wp_ca_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
+                                           verbose_name='PMB L03 WP CA Title')
     comments = models.CharField(max_length=200, blank=True, null=True, verbose_name='CBWP Comments')
     # Quantification, Pricing, Hours and Costs
     uom = models.ForeignKey(UOM, on_delete=models.CASCADE, verbose_name='CBWP UOM ID', default=1)
@@ -105,25 +106,69 @@ class PmbWpCaL03(models.Model):
 
     class Meta:
         managed = True
-        verbose_name_plural = "PMB WP CA L03 Details"
-        db_table = 'pmb_wp_ca_L03'
+        verbose_name_plural = "PMB L03 WP CA Budget Details"
+        db_table = 'pmb_L03_wp_ca'
         app_label = 'z_tab_pmb_quantum'
-        ordering = ['pmb_wp_ca_L03_code']
+        ordering = ['pmb_L03_wp_ca_code']
 
     def __str__(self):
-        return f"{self.pmb_wp_ca_L03_code} - {self.pmb_wp_ca_L03_title}"
+        return f"{self.pmb_L03_wp_ca_code} - {self.pmb_L03_wp_ca_title}"
 
 
-class PmbWpCaL04(models.Model):
-    pmb_wp_ca_L03 = models.ForeignKey(PmbWpCaL03, on_delete=models.CASCADE,
-                                      verbose_name='PMB WP CA L03 ID', default=1)
+class PmbL03WpCaScopeItems(models.Model):
+    pmb_L03_wp_ca = models.ForeignKey(PmbL03WpCa, on_delete=models.CASCADE,
+                                      verbose_name='PMB L03 WP CA ID', default=1)
+    pmb_L03_wp_ca_scope_item_code = models.CharField(unique=True, max_length=55, verbose_name='PMB L03 WP CA Scope '
+                                                                                              'Item Code')
+    pmb_L03_wp_ca_scope_item_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
+                                                      verbose_name='PMB L03 WP CA Scope Item Title')
+    pmb_L03_wp_ca_scope_item_no = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],
+                                                      verbose_name='Step Number')
+    comments = models.CharField(max_length=200, blank=True, null=True, verbose_name='CBWP Comments')
+    # Quantification, Pricing, Hours and Costs
+    uom = models.ForeignKey(UOM, on_delete=models.CASCADE, verbose_name='CBWP UOM ID', default=1)
+    # Current Forecast Budget
+    scope_item_quantity = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
+                                              verbose_name='Scope Item Quantity', default=0)
+    scope_item_hours = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
+                                           verbose_name='Scope Item Hours', default=0)
+    scope_item_costs = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
+                                           verbose_name='Scope Item Costs', default=0)
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "PMB L03 WP CA Scope Items"
+        db_table = 'pmb_L03_wp_ca_scope_item'
+        app_label = 'z_tab_pmb_quantum'
+        ordering = ['pmb_L03_wp_ca_scope_item_code']
+        unique_together = [
+            ['pmb_L03_wp_ca_scope_item_code', 'pmb_L03_wp_ca_scope_item_title', 'pmb_L03_wp_ca_scope_item_no']]
+
+    def __str__(self):
+        return f"{self.pmb_L03_wp_ca_scope_item_code} - {self.pmb_L03_wp_ca_scope_item_title} " \
+               f"- {self.pmb_L03_wp_ca_scope_item_no}"
+
+
+class PmbL04Wp(models.Model):
+    pmb_L03_wp_ca = models.ForeignKey(PmbL03WpCa, on_delete=models.CASCADE,
+                                      verbose_name='PMB L03 WP CA ID ID', default=1)
+    pmb_L04_wp_exe_type = models.ForeignKey(PmbL04WpExecutionType, on_delete=models.CASCADE,
+                                            verbose_name='PMB L04 WP Execution Type ID', default=1)
+    pmb_L04_wp_status_type = models.ForeignKey(PmbL04WpStatusType, on_delete=models.CASCADE,
+                                               verbose_name='PMB L04 WP Status Type ID', default=1)
     commodity_type = models.ForeignKey(CommodityType, on_delete=models.CASCADE,
                                        verbose_name='CBWP Commodity Type ID', default=1)
     commodity = models.ForeignKey(Commodity, on_delete=models.CASCADE,
                                   verbose_name='CBWP Commodity ID', default=1)
-    pmb_wp_ca_L04_code = models.CharField(unique=True, max_length=55, verbose_name='PMB WP CA L04 Code')
-    pmb_wp_ca_L04_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
-                                           verbose_name='PMB WP CA L04 Title')
+    pmb_L04_schedule = models.ForeignKey(PMBL04Schedule, on_delete=models.CASCADE,
+                                         verbose_name='PMB L04 Schedule Activity ID', default=1)
+    disc_start_date = models.DateTimeField(blank=True, null=True,
+                                           verbose_name='Discretionary Start Date')
+    disc_finish_date = models.DateTimeField(blank=True, null=True,
+                                            verbose_name='Discretionary Finish Date')
+    pmb_L04_wp_code = models.CharField(unique=True, max_length=55, verbose_name='PMB L04 WP Code')
+    pmb_L04_wp_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
+                                        verbose_name="PMB L04 WP Title")
     comments = models.CharField(max_length=200, blank=True, null=True, verbose_name='CBWP Comments')
     # Quantification, Pricing, Hours and Costs
     uom = models.ForeignKey(UOM, on_delete=models.CASCADE, verbose_name='CBWP UOM ID', default=1)
@@ -137,13 +182,13 @@ class PmbWpCaL04(models.Model):
 
     class Meta:
         managed = True
-        verbose_name_plural = "PMB WP CA L04 Details"
-        db_table = 'pmb_wp_ca_L04'
+        verbose_name_plural = "PMB L04 WP Details"
+        db_table = 'pmb_L04_wp'
         app_label = 'z_tab_pmb_quantum'
-        ordering = ['pmb_wp_ca_L04_code']
+        ordering = ['pmb_L04_wp_code']
 
     def __str__(self):
-        return f"{self.pmb_wp_ca_L04_code} - {self.pmb_wp_ca_L04_title}"
+        return f"{self.pmb_L04_wp_code} - {self.pmb_L04_wp_title}"
 
 
 class ProjectComponent(models.Model):
@@ -219,18 +264,18 @@ class ProjectDocumentComponent(models.Model):
         return str('%s' % self.project_document_component_code)
 
 
-class PmbWpCaL04Quantum(models.Model):
-    pmb_wp_ca_L04 = models.ForeignKey(PmbWpCaL04, on_delete=models.CASCADE,
-                                      verbose_name='PMB WP CA L04 ID', default=1)
-    quantum_code = models.CharField(unique=True, max_length=55, verbose_name='PMB WP CA L04 Code')
+class PmbL04WpQuantum(models.Model):
+    pmb_L04_wp = models.ForeignKey(PmbL04Wp, on_delete=models.CASCADE,
+                                   verbose_name='PMB L04 WP ID', default=1)
+    quantum_code = models.CharField(unique=True, max_length=55, verbose_name='Quantum Code')
     quantum_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
-                                     verbose_name='PMB WP CA L04 Title')
+                                     verbose_name='Quantum Title')
     comments = models.CharField(max_length=200, blank=True, null=True, verbose_name='CBWP Comments')
     # Quantification, Pricing, Hours and Costs
     # uom = models.ForeignKey(UOM, on_delete=models.CASCADE, verbose_name='CBWP UOM ID', default=1)
     # Current Forecast Budget
     bac_quantum_quantity = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
-                                       verbose_name='BAC Quantum Quantity', default=0)
+                                               verbose_name='BAC Quantum Quantity', default=0)
     # cfb_hours = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
     #                                 verbose_name='CFB Hours', default=0)
     # cfb_costs = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
@@ -269,8 +314,8 @@ class PmbWpCaL04Quantum(models.Model):
 
     class Meta:
         managed = True
-        verbose_name_plural = "PMB WP CA L04 Quantum Details"
-        db_table = 'pmb_wp_ca_L04_quantum'
+        verbose_name_plural = "PMB L04 WP Quantum Details"
+        db_table = 'pmb_L04_wp_quantum'
         app_label = 'z_tab_pmb_quantum'
         ordering = ['quantum_code']
 

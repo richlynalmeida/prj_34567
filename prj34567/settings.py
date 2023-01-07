@@ -244,7 +244,7 @@ JAZZMIN_SETTINGS = {
     'site_icon': 'CAMEOSE/Images/sigma.png',
 
     # Welcome text on the login screen
-    'welcome_sign': 'Project 34567 in SQLServer',
+    'welcome_sign': 'Project 34567 in PostgreSQL',
 
     # Copyright on the footer
     'copyright': 'CAMEOSE Solutions Ltd',

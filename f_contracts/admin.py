@@ -9,7 +9,7 @@ admin.site.register(models.ContractType)
 # admin.site.register(models.Contract)
 admin.site.register(models.ContractSecondaryInfo)
 admin.site.register(models.ContractClauses)
-admin.site.register(models.TrendTypes)
+# admin.site.register(models.TrendTypes)
 
 
 class ContractAdmin(admin.ModelAdmin):

@@ -4,7 +4,6 @@ from a_hr.models import Personnel, RaciMatrixDefinition, StakeholderRoles
 from b_wbs.models import CostTypeClass, CostType, Department, Discipline, WBSType, WBS, FacilitySystem, \
     FacilitySystemDetail, PmbL03WpExecutionType, PmbL04WpExecutionType, PmbL03WpStatusType, PmbL04WpStatusType
 from e_commodities.models import CommodityType, Commodity
-from f_contracts.models import Contract, TrendTypes
 from g_measures.models import UOM
 from h_schedules.models import PMBL03Schedule, PMBL04Schedule
 from d_mm.models import PurchaseOrder
@@ -147,6 +146,112 @@ class PmbL03WpCaScopeItems(models.Model):
     def __str__(self):
         return f"{self.pmb_L03_wp_ca_scope_item_code} - {self.pmb_L03_wp_ca_scope_item_title} " \
                f"- {self.pmb_L03_wp_ca_scope_item_no}"
+
+
+class TrendTypes(models.Model):
+    trend_type_code = models.CharField(unique=True, max_length=5,
+                                       verbose_name='Trend Type Code')
+    trend_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+                                        verbose_name='Trend Type Title')
+    scope_related_check = models.IntegerField(default=0, verbose_name='Scope Related Check')
+
+    # 0 - Non-Scope Related; 1 - Scope Related
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "Trend Types"
+        db_table = 'tm_trend_type'
+        app_label = 'z_tab_pmb_quantum'
+        ordering = ['trend_type_code']
+
+    # def __str__(self):
+    #     return str('%s' % self.contract_pricing_style_code)
+    def __str__(self):
+        return f"{self.trend_type_code} - {self.trend_type_title}"
+
+
+class TrendStatusTypes(models.Model):
+    trend_status_type_code = models.CharField(unique=True, max_length=5,
+                                              verbose_name='Trend Status Type Code')
+    trend_status_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+                                               verbose_name='Trend Status Type Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "Trend Status Types"
+        db_table = 'tm_trend_status_type'
+        app_label = 'z_tab_pmb_quantum'
+        ordering = ['trend_status_type_code']
+
+    def __str__(self):
+        return f"{self.trend_status_type_code} - {self.trend_status_type_title}"
+
+
+class TrendLog(models.Model):
+    pmb_L03_wp_ca = models.ForeignKey(PmbL03WpCa, on_delete=models.CASCADE,
+                                      verbose_name='PMB L03 WP CA ID', default=1)
+    tm_trend_type = models.ForeignKey(TrendTypes, on_delete=models.CASCADE,
+                                      verbose_name='Trend Type ID', default=1)
+    tm_trend_status_type = models.ForeignKey(TrendStatusTypes, on_delete=models.CASCADE,
+                                             verbose_name='Trend Status Type ID', default=1)
+    trend_log_code = models.CharField(unique=True, max_length=5,
+                                      verbose_name='Trend Log Code')
+    trend_log_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+                                       verbose_name='Trend Log Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "Trend Log"
+        db_table = 'tm_trend_log'
+        app_label = 'z_tab_pmb_quantum'
+        ordering = ['trend_log_code']
+
+    def __str__(self):
+        return f"{self.trend_log_code} - {self.trend_log_title}"
+
+
+class TrendLogTransactionTypes(models.Model):
+    trend_log_transaction_type_code = models.CharField(unique=True, max_length=5,
+                                                       verbose_name='Trend Log Transaction Type Code')
+    trend_log_transaction_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+                                                        verbose_name='Trend Log Transaction Type Title')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "Trend Log Transaction Types"
+        db_table = 'tm_trend_log_transaction_type'
+        app_label = 'z_tab_pmb_quantum'
+        ordering = ['trend_log_transaction_type_code']
+
+    def __str__(self):
+        return f"{self.trend_log_transaction_type_code} - {self.trend_log_transaction_type_title}"
+
+
+class TrendLogTransactions(models.Model):
+    tm_trend_log = models.ForeignKey(TrendLog, on_delete=models.CASCADE,
+                                     verbose_name='Trend Log ID', default=1)
+    tm_trend_log_transaction_type = models.ForeignKey(TrendLogTransactionTypes, on_delete=models.CASCADE,
+                                                      verbose_name='Trend Log Transaction Type ID', default=1)
+    transaction_no = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],
+                                         verbose_name='Transaction Number')
+    transaction_amount = models.DecimalField(max_digits=18, decimal_places=2, blank=True, null=True,
+                                             verbose_name='Transaction Amount', default=0)
+    from_or_to = models.CharField(unique=False, max_length=55, verbose_name='CA Account details - Funds direction')
+    comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
+    modified_by = models.CharField(unique=False, max_length=55, verbose_name='Modified By')
+    modified_date = models.DateTimeField(unique=False, verbose_name='Modified Date')
+
+    class Meta:
+        managed = True
+        verbose_name_plural = "Trend Log Transactions"
+        db_table = 'tm_trend_log_transactions'
+        app_label = 'z_tab_pmb_quantum'
+
+    def __str__(self):
+        return f"{self.tm_trend_log} - {self.transaction_no}"
 
 
 class PmbL04Wp(models.Model):

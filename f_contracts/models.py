@@ -121,23 +121,3 @@ class ContractClauses(models.Model):
         return str('%s' % self.contract_clause_number)
 
 
-class TrendTypes(models.Model):
-    trend_type_code = models.CharField(unique=True, max_length=5,
-                                       verbose_name='Trend Type Code')
-    trend_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
-                                        verbose_name='Trend Type Title')
-    scope_related_check = models.IntegerField(default=0, verbose_name='Scope Related Check')
-
-    # 0 - Non-Scope Related; 1 - Scope Related
-
-    class Meta:
-        managed = True
-        verbose_name_plural = "Trend Types"
-        db_table = 'tm_trend_type'
-        app_label = 'f_contracts'
-        ordering = ['trend_type_code']
-
-    # def __str__(self):
-    #     return str('%s' % self.contract_pricing_style_code)
-    def __str__(self):
-        return f"{self.trend_type_code} - {self.trend_type_title}"

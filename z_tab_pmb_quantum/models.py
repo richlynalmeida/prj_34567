@@ -39,7 +39,7 @@ class PmbL03Wp(models.Model):
     secondary_contact = models.CharField(unique=False, max_length=100, blank=True, null=True,
                                          verbose_name='CBWP Secondary Contact')
     pmb_L03_wp_code = models.CharField(unique=True, max_length=55, verbose_name='PMB L03 WP Code')
-    pmb_L03_wp_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
+    pmb_L03_wp_title = models.CharField(unique=False, max_length=200, blank=True, null=True,
                                         verbose_name='PMB L03 WP Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
@@ -62,7 +62,7 @@ class PmbL03WpCa(models.Model):
     cost_type = models.ForeignKey(CostType, on_delete=models.CASCADE, verbose_name='CBWP Cost Type ID',
                                   default=1)
     pmb_L03_wp_ca_code = models.CharField(unique=True, max_length=55, verbose_name='PMB L03 WP CA Code')
-    pmb_L03_wp_ca_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
+    pmb_L03_wp_ca_title = models.CharField(unique=False, max_length=200, blank=True, null=True,
                                            verbose_name='PMB L03 WP CA Title')
     comments = models.CharField(max_length=200, blank=True, null=True, verbose_name='CBWP Comments')
     # Quantification, Pricing, Hours and Costs
@@ -197,7 +197,7 @@ class TrendLog(models.Model):
                                              verbose_name='Trend Status Type ID', default=1)
     trend_log_code = models.CharField(unique=True, max_length=5,
                                       verbose_name='Trend Log Code')
-    trend_log_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+    trend_log_title = models.CharField(unique=False, max_length=55, blank=True, null=True,
                                        verbose_name='Trend Log Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
@@ -215,7 +215,7 @@ class TrendLog(models.Model):
 class TrendLogTransactionTypes(models.Model):
     trend_log_transaction_type_code = models.CharField(unique=True, max_length=5,
                                                        verbose_name='Trend Log Transaction Type Code')
-    trend_log_transaction_type_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+    trend_log_transaction_type_title = models.CharField(unique=False, max_length=55, blank=True, null=True,
                                                         verbose_name='Trend Log Transaction Type Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Comments')
 
@@ -272,7 +272,7 @@ class PmbL04Wp(models.Model):
     disc_finish_date = models.DateTimeField(blank=True, null=True,
                                             verbose_name='Discretionary Finish Date')
     pmb_L04_wp_code = models.CharField(unique=True, max_length=55, verbose_name='PMB L04 WP Code')
-    pmb_L04_wp_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
+    pmb_L04_wp_title = models.CharField(unique=False, max_length=200, blank=True, null=True,
                                         verbose_name="PMB L04 WP Title")
     comments = models.CharField(max_length=200, blank=True, null=True, verbose_name='CBWP Comments')
     # Quantification, Pricing, Hours and Costs
@@ -303,7 +303,7 @@ class ProjectComponent(models.Model):
     # two separate activities with individual costs. For now, let us group the 'id' along with the 'function' for
     # uniqueness on the project.
     project_component_code = models.CharField(unique=True, max_length=25, verbose_name='Project Component Code')
-    project_component_title = models.CharField(unique=True, max_length=55, blank=True, null=True,
+    project_component_title = models.CharField(unique=False, max_length=55, blank=True, null=True,
                                                verbose_name='Project Component Title')
     comments = models.CharField(max_length=2000, blank=True, null=True, verbose_name='Project Component Comments')
 
@@ -322,7 +322,7 @@ class ProjectComponent(models.Model):
 
 class ProjectDocument(models.Model):
     project_document_code = models.CharField(unique=True, max_length=25, verbose_name='Project Document Code')
-    project_document_title = models.CharField(unique=True, max_length=100, verbose_name='Project Document Title')
+    project_document_title = models.CharField(unique=False, max_length=100, verbose_name='Project Document Title')
     revision_number = models.CharField(max_length=3, blank=True, null=True, verbose_name='Revision No')
     revision_status = models.CharField(max_length=55, blank=True, null=True, verbose_name='Revision Status')
     release_date = models.DateTimeField(blank=True, null=True, verbose_name='Release Date')
@@ -351,7 +351,7 @@ class ProjectDocumentComponent(models.Model):
     project_document_component_code = models.CharField(unique=True, max_length=25,
                                                        verbose_name='Project Unified Document Component Code',
                                                        default='Test')
-    project_document_component_title = models.CharField(unique=True, blank=True, null=True, max_length=100,
+    project_document_component_title = models.CharField(unique=False, blank=True, null=True, max_length=100,
                                                         verbose_name='Project Unified Document Component Code Title')
     project_component = models.ForeignKey(ProjectComponent,
                                           on_delete=models.CASCADE, verbose_name='Project Component ID', default=1)
@@ -373,7 +373,7 @@ class PmbL04WpQuantum(models.Model):
     pmb_L04_wp = models.ForeignKey(PmbL04Wp, on_delete=models.CASCADE,
                                    verbose_name='PMB L04 WP ID', default=1)
     quantum_code = models.CharField(unique=True, max_length=55, verbose_name='Quantum Code')
-    quantum_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
+    quantum_title = models.CharField(unique=False, max_length=200, blank=True, null=True,
                                      verbose_name='Quantum Title')
     comments = models.CharField(max_length=200, blank=True, null=True, verbose_name='CBWP Comments')
     # Quantification, Pricing, Hours and Costs

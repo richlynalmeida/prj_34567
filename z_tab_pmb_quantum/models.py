@@ -117,9 +117,9 @@ class PmbL03WpCa(models.Model):
 class PmbL03WpCaScopeItems(models.Model):
     pmb_L03_wp_ca = models.ForeignKey(PmbL03WpCa, on_delete=models.CASCADE,
                                       verbose_name='PMB L03 WP CA ID', default=1)
-    pmb_L03_wp_ca_scope_item_code = models.CharField(unique=True, max_length=55, verbose_name='PMB L03 WP CA Scope '
+    pmb_L03_wp_ca_scope_item_code = models.CharField(unique=False, max_length=55, verbose_name='PMB L03 WP CA Scope '
                                                                                               'Item Code')
-    pmb_L03_wp_ca_scope_item_title = models.CharField(unique=True, max_length=200, blank=True, null=True,
+    pmb_L03_wp_ca_scope_item_title = models.CharField(unique=False, max_length=200, blank=True, null=True,
                                                       verbose_name='PMB L03 WP CA Scope Item Title')
     pmb_L03_wp_ca_scope_item_no = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],
                                                       verbose_name='Step Number')
@@ -141,7 +141,7 @@ class PmbL03WpCaScopeItems(models.Model):
         app_label = 'z_tab_pmb_quantum'
         ordering = ['pmb_L03_wp_ca_scope_item_code']
         unique_together = [
-            ['pmb_L03_wp_ca_scope_item_code', 'pmb_L03_wp_ca_scope_item_title', 'pmb_L03_wp_ca_scope_item_no']]
+            ['pmb_L03_wp_ca', 'pmb_L03_wp_ca_scope_item_code', 'pmb_L03_wp_ca_scope_item_no']]
 
     def __str__(self):
         return f"{self.pmb_L03_wp_ca_scope_item_code} - {self.pmb_L03_wp_ca_scope_item_title} " \
